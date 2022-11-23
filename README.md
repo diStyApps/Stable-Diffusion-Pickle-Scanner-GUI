@@ -54,8 +54,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="media/preview/passdir.png" width="70%" height="70%">
-<img src="media/preview/infecteddir.jpg" width="70%" height="70%">
+<img src="media/preview/passdir.png">
+<img src="media/preview/infecteddir.jpg">
 
 
 The project is a GUI for [picklescan](https://github.com/mmaitre314/picklescan) repo. Made simple and portable.
