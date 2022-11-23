@@ -8,7 +8,7 @@ from picklescan.src.picklescan.scanner import scan_url
 from picklescan.src.picklescan.scanner import scan_huggingface_model
 from picklescan.src.picklescan.scanner import scanned_files
 from picklescan.src.picklescan.scanner import infected_files
-
+import util.icons as ic
 COLOR_DARK_GREEN = '#78BA04'
 COLOR_DARK_BLUE = '#4974a5'
 COLOR_RED_ORANGE = '#C13515'
@@ -23,16 +23,6 @@ INFECTED_FILES_DEF = f'{INFECTED_FILES} 0'
 DANGEROUS_GLOBALS_DEF = f'{DANGEROUS_GLOBALS} 0'
 
 right_click_menu = ['', ['Copy', 'Paste', 'Cut']]
-
-def image_bio(filename,size):
-    if os.path.exists(filename):
-        image1 = Image.open(filename)
-        if size[0]>0:
-            image1.thumbnail(size)
-        bio = io.BytesIO()
-        image1.save(bio,format="PNG")
-        del image1
-        return bio.getvalue()
 
 def do_clipboard_operation(event, window, element):
     if event == 'Select All':
@@ -58,7 +48,6 @@ def do_clipboard_operation(event, window, element):
         except:
             # print('Nothing selected')
             window['-status_info-'].update(value='Nothing selected') 
-
 def main():
     ver = '0.1.0'
     sg.theme('Dark Gray 15')
@@ -109,11 +98,10 @@ def main():
                     sg.Radio('Directory','-type_selector_input_radio-',default=False,k='-directory_radio-',enable_events=True),
                         sg.Frame('',[
                             [
-                                sg.Button(image_data=image_bio('./media/buymeacoffee.png',(133,500)),expand_x=False,visible=True,enable_events=True,key="-buymeacoffee-",button_color=(COLOR_GRAY_9900,COLOR_GRAY_9900)),
-                                sg.Button(image_data=image_bio('./media/kofi.png',(60,500)),expand_x=False,visible=True,enable_events=True,key="-kofi-",button_color=(COLOR_GRAY_9900,COLOR_GRAY_9900)),
-                                sg.Button(image_data=image_bio('./media/coindrop.png',(95,500)),expand_x=False,visible=True,enable_events=True,key="-coindrop-",button_color=(COLOR_GRAY_9900,COLOR_GRAY_9900)),
-
-                                sg.Button(image_data=image_bio('./media/github.png',(80,500)),expand_x=False,visible=True,enable_events=True,key="-github-",button_color=(COLOR_GRAY_9900,COLOR_GRAY_9900)),
+                                sg.Button(image_data=ic.buymeacoffee,expand_x=False,visible=True,enable_events=True,key="-buymeacoffee-",button_color=(COLOR_GRAY_9900,COLOR_GRAY_9900)),
+                                sg.Button(image_data=ic.kofi,expand_x=False,visible=True,enable_events=True,key="-kofi-",button_color=(COLOR_GRAY_9900,COLOR_GRAY_9900)),
+                                sg.Button(image_data=ic.coindrop,expand_x=False,visible=True,enable_events=True,key="-coindrop-",button_color=(COLOR_GRAY_9900,COLOR_GRAY_9900)),
+                                sg.Button(image_data=ic.github,expand_x=False,visible=True,enable_events=True,key="-github-",button_color=(COLOR_GRAY_9900,COLOR_GRAY_9900))
                             ],
                         ],expand_x=True,expand_y=False,relief=sg.RELIEF_SOLID,border_width=1,visible=True,background_color=COLOR_GRAY_9900,element_justification="r")
 
