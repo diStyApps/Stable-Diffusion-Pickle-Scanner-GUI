@@ -64,9 +64,13 @@ The project is a GUI for [picklescan](https://github.com/mmaitre314/picklescan) 
 
 <!-- Downloads -->
 ## Downloads
-Standalone version [Windows](https://github.com/diStyApps/Stable-Diffusion-Pickle-Scanner-GUI/releases/download/v0.1.0/distys-Stable-Diffusion-Pickle-Scanner-GUI.v0.1.0.exe) 
+
+Standalone version [Windows](https://github.com/diStyApps/Stable-Diffusion-Pickle-Scanner-GUI/releases/download/v0.1.0/distys-Stable-Diffusion-Pickle-Scanner-GUI-standalone.v0.1.0.exe) 
 
 Archived version [Windows](https://github.com/diStyApps/Stable-Diffusion-Pickle-Scanner-GUI/releases/download/v0.1.0/distys-Stable-Diffusion-Pickle-Scanner-GUI.v0.1.0.zip) 
+
+[Releases](https://github.com/diStyApps/Stable-Diffusion-Pickle-Scanner-GUI/releases/tag/v0.1.0)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
