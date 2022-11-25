@@ -41,10 +41,13 @@ class ScanResult:
     infected_files: int = 0
 
     def merge(self, sr: "ScanResult"):
-        self.globals.extend(sr.globals)
-        self.scanned_files += sr.scanned_files
-        self.issues_count += sr.issues_count
-        self.infected_files += sr.infected_files
+            if sr:
+                self.globals.extend(sr.globals)
+                self.scanned_files += sr.scanned_files
+                self.issues_count += sr.issues_count
+                self.infected_files += sr.infected_files
+            else:
+                return None
 
 _log = logging.getLogger("picklescan")
 
@@ -136,13 +139,11 @@ def _http_get(url) -> bytes:
     _log.debug(f"Request: GET {url}")
 
     parsed_url = urllib.parse.urlparse(url)
-    # print('parsed_url',parsed_url.path)
     path_and_query = parsed_url.path + (
         "?" + parsed_url.query if len(parsed_url.query) > 0 else ""
     )
 
     conn = http.client.HTTPSConnection(parsed_url.netloc)
-    # print('path_and_query',path_and_query)
 
     try:
         conn.request("GET", path_and_query)
@@ -225,12 +226,10 @@ def scan_pickle_bytes(data: IO[bytes], file_id) -> ScanResult:
         if unsafe_filter is not None and (
             unsafe_filter == "*" or g.name in unsafe_filter
         ):
-            # print('----------- INFECTED FILE -----------')
             g.safety = SafetyLevel.Dangerous
             _log.warning(
                 "%s: %s import '%s %s' FOUND", file_id, g.safety.value, g.module, g.name
             )
-            # print(f"{file_id} {g.safety.value} import {g.module} {g.name} FOUND")
             infected_files.append(f"{file_id} {g.safety.value} import {g.module} {g.name} FOUND")
             issues_count += 1
         elif safe_filter is not None and (safe_filter == "*" or g.name in safe_filter):
@@ -244,21 +243,27 @@ def scan_pickle_bytes(data: IO[bytes], file_id) -> ScanResult:
 
 def scan_zip_bytes(data: IO[bytes], file_id) -> ScanResult:
     result = ScanResult([])
+    try:
+        with zipfile.ZipFile(data, "r") as zip:
+            file_names = zip.namelist()
+            _log.debug("Files in archive %s: %s", file_id, file_names)
+            for file_name in file_names:
+                if os.path.splitext(file_name)[1] in _pickle_file_extensions:
+                    _log.debug("Scanning file %s in zip archive %s", file_name, file_id)
+                    with zip.open(file_name, "r") as file:
+                        result.merge(scan_pickle_bytes(file, f"{file_id}:{file_name}"))
+        if result:
+            return result
+    except zipfile.BadZipFile as e:
+        print("  FAIL TO SCAN: Corrupted file",file_id)   
 
-    with zipfile.ZipFile(data, "r") as zip:
-        file_names = zip.namelist()
-        _log.debug("Files in archive %s: %s", file_id, file_names)
-        for file_name in file_names:
-            if os.path.splitext(file_name)[1] in _pickle_file_extensions:
-                _log.debug("Scanning file %s in zip archive %s", file_name, file_id)
-                with zip.open(file_name, "r") as file:
-                    result.merge(scan_pickle_bytes(file, f"{file_id}:{file_name}"))
 
-    return result
 
 
 def scan_pytorch(data: IO[bytes], file_id) -> ScanResult:
     # new pytorch format
+    print("  Scanning file:",file_id)
+
     if _is_zipfile(data):
         return scan_zip_bytes(data, file_id)
     # old pytorch format
@@ -273,7 +278,6 @@ def scan_pytorch(data: IO[bytes], file_id) -> ScanResult:
             except TarError:
                 # file does not contain a tar
                 data.seek(0)
-
         magic = get_magic_number(data)
         if magic != MAGIC_NUMBER:
             raise InvalidMagicError(magic, MAGIC_NUMBER)
@@ -286,14 +290,20 @@ def scan_pytorch(data: IO[bytes], file_id) -> ScanResult:
         for _ in range(5):
             scan_result.merge(scan_pickle_bytes(data, file_id))
         scan_result.scanned_files = 1
-        return scan_result
 
+        return scan_result
 
 def scan_bytes(data: IO[bytes], file_id, file_ext: Optional[str] = None) -> ScanResult:
     if file_ext is not None and file_ext in _pytorch_file_extensions:
-        return scan_pytorch(data, file_id)
+        try: 
+            return scan_pytorch(data, file_id)
+        except:
+            print("  FAIL TO SCAN: Corrupted file", file_id)
+            return None
     else:
         is_zip = zipfile.is_zipfile(data)
+        if isinstance(data,io.BufferedReader):
+            print("  Scanning file:",data.name)
         data.seek(0)
         return (
             scan_zip_bytes(data, file_id)
@@ -362,4 +372,5 @@ def scan_file_path(path) -> ScanResult:
 
 def scan_url(url) -> ScanResult:
     scanned_files.append(url)
+    print("  Scanning file: ",url)
     return scan_bytes(io.BytesIO(_http_get(url)), url)

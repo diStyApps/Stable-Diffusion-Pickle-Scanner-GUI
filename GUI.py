@@ -9,6 +9,7 @@ from picklescan.src.picklescan.scanner import scan_huggingface_model
 from picklescan.src.picklescan.scanner import scanned_files
 from picklescan.src.picklescan.scanner import infected_files
 import util.icons as ic
+from zipfile import BadZipFile
 COLOR_DARK_GREEN = '#78BA04'
 COLOR_DARK_BLUE = '#4974a5'
 COLOR_RED_ORANGE = '#C13515'
@@ -48,25 +49,40 @@ def do_clipboard_operation(event, window, element):
         except:
             # print('Nothing selected')
             window['-status_info-'].update(value='Nothing selected') 
+
 def main():
-    ver = '0.1.0'
+    ver = '0.1.1'
     sg.theme('Dark Gray 15')
     app_title = f"Disty's Stable Diffusion Pickle Scanner GUI - Ver {ver}"
     isError = 0
     file_ext = {
-        ("Pytorch Files", "*.ckpt"),
-        ("Pytorch Files", "*.pth"),
-        ("Pytorch Files", "*.pt"),
-        ("Pytorch Files", "*.bin"),
-        ("Pickle Files", "*.pkl"),
-        ("Pickle Files", "*.pickle"),
-        ("Pickle Files", "*.joblib"),
-        ("Pickle Files", "*.dat"),
-        ("Pickle Files", "*.data"),
-        ("Pickle Files", "*.npy"),
-        ("Pickle Files", "*.npy"),
-        ("Zip Files", "*.npz"),
-        ("Zip Files", "*.zip"),
+
+        ("All", "*.ckpt"),
+        ("All", "*.pth"),
+        ("All", "*.pt"),
+        ("All", "*.bin"),
+        ("All", "*.pkl"),
+        ("All", "*.pickle"),
+        ("All", "*.joblib"),
+        ("All", "*.dat"),
+        ("All", "*.data"),
+        ("All", "*.npy"),
+        ("All", "*.npy"),
+        ("All", "*.npz"),
+        ("All", "*.zip"),
+        # ("Pytorch Files", "*.ckpt"),
+        # ("Pytorch Files", "*.pth"),
+        # ("Pytorch Files", "*.pt"),
+        # ("Pytorch Files", "*.bin"),
+        # ("Pickle Files", "*.pkl"),
+        # ("Pickle Files", "*.pickle"),
+        # ("Pickle Files", "*.joblib"),
+        # ("Pickle Files", "*.dat"),
+        # ("Pickle Files", "*.data"),
+        # ("Pickle Files", "*.npy"),
+        # ("Pickle Files", "*.npy"),
+        # ("Zip Files", "*.npz"),
+        # ("Zip Files", "*.zip"),        
     }
 
     #region layout
@@ -83,7 +99,8 @@ def main():
         layout = sg.Frame('',[
                                 [
                                     sg.Input(key=f'-input_files_{type_}-',enable_events=True,expand_x=True,expand_y=True,font='Ariel 11',background_color=COLOR_DARK_GRAY,right_click_menu=right_click_menu),
-                                    browse_type
+                                    browse_type,
+
                                 ],
                             ],expand_x=True,k=f'-frame_{type_}-',visible=visible_,relief=sg.RELIEF_SOLID,border_width=1,background_color=COLOR_GRAY_9900)
         return layout
@@ -118,43 +135,51 @@ def main():
         ],
     ]
 
-    bottom_column = [
-        [
-            sg.Frame('',[
-                    [
-                        sg.Frame(' Status',[
-                            [
-                                sg.Text('',key='-status_info-', expand_x=True)
-                            ],
-                        ],expand_x=True,expand_y=False,relief=sg.RELIEF_SOLID,border_width=0,visible=True,element_justification='c',background_color=COLOR_GRAY_9900,title_color=COLOR_DARK_BLUE)                          
-                    ],  
-                [              
-                    sg.Button('Scan',k='-scan_button-',disabled=False,expand_x=True),
-                ],
-            ],expand_x=True,border_width=0,relief=sg.RELIEF_FLAT,element_justification='c')
-        ],    
-    ]
 
     console_column = [
         [
             sg.Frame('',[
+                                [              
+                        sg.Button('SCAN',k='-scan_button-',disabled=False,button_color=("white",COLOR_DARK_BLUE),font='Ariel 12 ',expand_x=True,size=(10,2)),
+                    ], 
+                    
                 [
                     sg.Text(SCANNED_FILES_DEF,k='-scanned_files_text-',expand_x=True,expand_y=True,font='Ariel 12',justification='left',size=(20,1)),
                     sg.Text(INFECTED_FILES_DEF,k='-infected_files_text-',expand_x=True,expand_y=True,font='Ariel 12',justification='c',size=(20,1)),
                     sg.Text(DANGEROUS_GLOBALS_DEF,k='-dangerous_globals_text-',expand_x=True,expand_y=True,font='Ariel 12',justification='right',size=(20,1)),
-                ],         
+                ], 
+  
+                    [
+                        sg.MLine(k='-console_ml-',reroute_stdout=True,write_only=False,reroute_cprint=True, autoscroll=True, text_color='white', auto_refresh=True,size=(120,30),expand_x=True,expand_y=True)
+                    ],                                              
                     [
                         sg.Frame('',[
                             [
                                 sg.Text('',key='-status_state_text-', expand_x=True,expand_y=True,justification='c',font='Ariel 12 bold',background_color=COLOR_GRAY_9900)
                             ],
                         ],expand_x=True,expand_y=False,relief=sg.RELIEF_FLAT,border_width=0,visible=True,element_justification='c',background_color=COLOR_GRAY_9900,size=(50,30))                          
-                    ],                           
-                [
-                    sg.MLine(k='-console_ml-',reroute_stdout=True,write_only=False,reroute_cprint=True, autoscroll=True, text_color='white', auto_refresh=True,size=(120,35),expand_x=True,expand_y=True)
-                ],
-            ],expand_x=True,expand_y=True,border_width=0,relief=sg.RELIEF_FLAT,k='-scanned_frame-')
+                    ],   
+                                                           
+
+            ],expand_x=True,expand_y=True,border_width=0,relief=sg.RELIEF_FLAT,k='-scanned_frame-',element_justification="c")
         ],  
+    ]
+    
+    bottom_column = [
+        [
+            sg.Frame('',[
+                    [
+                        sg.Frame(' Status',[
+                            [
+                                sg.Text('',key='-status_info-', expand_x=True,font='Ariel 12 bold')
+                            ],
+                        ],expand_x=True,expand_y=True,relief=sg.RELIEF_SOLID,border_width=0,visible=True,element_justification='c',background_color=COLOR_GRAY_9900,title_color=COLOR_DARK_BLUE)                          
+                    ],  
+                # [              
+                #     sg.Button('Scan',k='-scan_button-',disabled=False,expand_x=True),
+                # ],
+            ],expand_x=True,border_width=0,relief=sg.RELIEF_FLAT,element_justification='c')
+        ],    
     ]
 
     layout = [
@@ -274,7 +299,6 @@ def main():
                             print(ConnectionRefusedError,e)   
                             isError = 1
                             status_info_widget.update(value='Fail to scan') 
-
                         except AttributeError as e:
                             print(AttributeError,e)   
                             isError = 1  
@@ -292,7 +316,6 @@ def main():
                             print(FileNotFoundError,e)   
                             isError = 1
                             status_info_widget.update(value='Fail to scan') 
-
                     else:
                             isError = 1
                             status_info_widget.update(value='Nothing to scan') 
@@ -302,45 +325,54 @@ def main():
                     if len(input_files)>1:
                         try:
                             scan_result = scan_file_path(input_files)
+                            if scan_result == None:
+                                isError = 1
+                                status_info_widget.update(value='Fail to scan')                                
                         except FileNotFoundError as e:
                             print(FileNotFoundError,e)   
                             isError = 1
-                            status_info_widget.update(value='Fail to scan') 
+                            status_info_widget.update(value='Fail to scan')                           
                     else:
                             isError = 1        
                             status_info_widget.update(value='Nothing to scan') 
 
+
+                            
+
                 if not isError:
-                    scanned_files_text_widget.update(value=f'{SCANNED_FILES} {scan_result.scanned_files}') 
-                    infected_files_text_widget.update(value=f'{INFECTED_FILES} {scan_result.infected_files}') 
-                    dangerous_globals_text_widget.update(value=f'{DANGEROUS_GLOBALS} {scan_result.issues_count}') 
-                    scanned_files_len = len(scanned_files)
-                    infected_files_len = len(infected_files)
+                    if scan_result:
+                        scanned_files_text_widget.update(value=f'{SCANNED_FILES} {scan_result.scanned_files}') 
+                        infected_files_text_widget.update(value=f'{INFECTED_FILES} {scan_result.infected_files}') 
+                        dangerous_globals_text_widget.update(value=f'{DANGEROUS_GLOBALS} {scan_result.issues_count}') 
+                        scanned_files_len = len(scanned_files)
+                        infected_files_len = len(infected_files)
 
-                    print('')
-                    if scanned_files_len > 0:
-                        print('----------- SCANNED FILES -----------')
-                        for file in scanned_files:
-                            print(f"    {file}")
-
-                        if infected_files_len == 0:
-                            status_state_text_widget.update(text_color='white')
-                            status_state_text_widget.Widget.config(background=COLOR_DARK_GREEN)  
-                            status_state_text_widget.ParentRowFrame.config(background=COLOR_DARK_GREEN)
-                            status_state_text_widget.update(value='PASS') 
-
-                    if infected_files_len > 0:
                         print('')
-                        print('----------- INFECTED FILES -----------')
-                        for file in infected_files:
-                            print(f"    {file}")
+                        if scanned_files_len > 0:
+                            # print('----------- SCANNED FILES -----------')
+                            # for file in scanned_files:
+                            #     print(f"    {file}")
 
-                        status_state_text_widget.update(text_color='white')
-                        status_state_text_widget.Widget.config(background=COLOR_RED_ORANGE)  
-                        status_state_text_widget.ParentRowFrame.config(background=COLOR_RED_ORANGE)
-                        status_state_text_widget.update(value='INFECTED') 
+                            if infected_files_len == 0:
+                                status_state_text_widget.update(text_color='white')
+                                status_state_text_widget.Widget.config(background=COLOR_DARK_GREEN)  
+                                status_state_text_widget.ParentRowFrame.config(background=COLOR_DARK_GREEN)
+                                status_state_text_widget.update(value='PASS') 
 
-                    status_info_widget.update(value='Done') 
+                        if infected_files_len > 0:
+                            print('')
+                            print('----------- INFECTED FILES -----------')
+                            print('')
+
+                            for file in infected_files:
+                                print(f"    {file}")
+
+                            status_state_text_widget.update(text_color='white')
+                            status_state_text_widget.Widget.config(background=COLOR_RED_ORANGE)  
+                            status_state_text_widget.ParentRowFrame.config(background=COLOR_RED_ORANGE)
+                            status_state_text_widget.update(value='FAIL') 
+
+                        status_info_widget.update(value='Done') 
 
         if event == '-huggingface_radio-':
                 window['-frame_file-'].update(visible=False)  
