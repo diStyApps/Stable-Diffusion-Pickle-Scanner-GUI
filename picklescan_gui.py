@@ -1,6 +1,4 @@
 import PySimpleGUI as sg
-import os,io
-from PIL import Image,ImageTk
 import webbrowser
 from picklescan.src.picklescan.scanner import scan_directory_path
 from picklescan.src.picklescan.scanner import scan_file_path
@@ -9,7 +7,7 @@ from picklescan.src.picklescan.scanner import scan_huggingface_model
 from picklescan.src.picklescan.scanner import scanned_files
 from picklescan.src.picklescan.scanner import infected_files
 import util.icons as ic
-from zipfile import BadZipFile
+
 COLOR_DARK_GREEN = '#78BA04'
 COLOR_DARK_BLUE = '#4974a5'
 COLOR_RED_ORANGE = '#C13515'
@@ -51,12 +49,12 @@ def do_clipboard_operation(event, window, element):
             window['-status_info-'].update(value='Nothing selected') 
 
 def main():
-    ver = '0.1.1'
+    ver = '0.1.2'
     sg.theme('Dark Gray 15')
     app_title = f"Disty's Stable Diffusion Pickle Scanner GUI - Ver {ver}"
     isError = 0
+    
     file_ext = {
-
         ("All", "*.ckpt"),
         ("All", "*.pth"),
         ("All", "*.pt"),
@@ -69,22 +67,9 @@ def main():
         ("All", "*.npy"),
         ("All", "*.npy"),
         ("All", "*.npz"),
-        ("All", "*.zip"),
-        # ("Pytorch Files", "*.ckpt"),
-        # ("Pytorch Files", "*.pth"),
-        # ("Pytorch Files", "*.pt"),
-        # ("Pytorch Files", "*.bin"),
-        # ("Pickle Files", "*.pkl"),
-        # ("Pickle Files", "*.pickle"),
-        # ("Pickle Files", "*.joblib"),
-        # ("Pickle Files", "*.dat"),
-        # ("Pickle Files", "*.data"),
-        # ("Pickle Files", "*.npy"),
-        # ("Pickle Files", "*.npy"),
-        # ("Zip Files", "*.npz"),
-        # ("Zip Files", "*.zip"),        
+        ("All", "*.zip"),      
     }
-
+   
     #region layout
     def browse_layout(type_,visible_,disabled=False):
         if type_ == 'huggingface':
@@ -100,11 +85,10 @@ def main():
                                 [
                                     sg.Input(key=f'-input_files_{type_}-',enable_events=True,expand_x=True,expand_y=True,font='Ariel 11',background_color=COLOR_DARK_GRAY,right_click_menu=right_click_menu),
                                     browse_type,
-
                                 ],
                             ],expand_x=True,k=f'-frame_{type_}-',visible=visible_,relief=sg.RELIEF_SOLID,border_width=1,background_color=COLOR_GRAY_9900)
         return layout
-
+        
     top_column = [
         [
             sg.Frame('',[
@@ -115,9 +99,8 @@ def main():
                     sg.Radio('Directory','-type_selector_input_radio-',default=False,k='-directory_radio-',enable_events=True),
                         sg.Frame('',[
                             [
-                                sg.Button(image_data=ic.buymeacoffee,expand_x=False,visible=True,enable_events=True,key="-buymeacoffee-",button_color=(COLOR_GRAY_9900,COLOR_GRAY_9900)),
-                                sg.Button(image_data=ic.kofi,expand_x=False,visible=True,enable_events=True,key="-kofi-",button_color=(COLOR_GRAY_9900,COLOR_GRAY_9900)),
-                                sg.Button(image_data=ic.coindrop,expand_x=False,visible=True,enable_events=True,key="-coindrop-",button_color=(COLOR_GRAY_9900,COLOR_GRAY_9900)),
+                                sg.Button(image_data=ic.patreon,expand_x=False,visible=True,enable_events=True,key="-patreon-",button_color=(COLOR_GRAY_9900,COLOR_GRAY_9900)),
+                                sg.Button(image_data=ic.supportme,expand_x=False,visible=True,enable_events=True,key="-supportme-",button_color=(COLOR_GRAY_9900,COLOR_GRAY_9900)),
                                 sg.Button(image_data=ic.github,expand_x=False,visible=True,enable_events=True,key="-github-",button_color=(COLOR_GRAY_9900,COLOR_GRAY_9900))
                             ],
                         ],expand_x=True,expand_y=False,relief=sg.RELIEF_SOLID,border_width=1,visible=True,background_color=COLOR_GRAY_9900,element_justification="r")
@@ -134,7 +117,6 @@ def main():
             browse_layout('directory',False),    
         ],
     ]
-
 
     console_column = [
         [
@@ -215,9 +197,9 @@ def main():
     dangerous_globals_text_widget = window["-dangerous_globals_text-"]
     console_ml_widget = window["-console_ml-"]
     status_info_widget = window["-status_info-"]
-    buymeacoffee_widget = window["-buymeacoffee-"]
-    kofi_widget = window["-kofi-"]
-    coindrop_widget = window["-coindrop-"]
+    patreon_widget = window["-patreon-"]
+    supportme_widget = window["-supportme-"]
+    github_widget = window["-github-"]
 
     github_widget = window["-github-"]
 
@@ -232,10 +214,9 @@ def main():
         input_files_url_widget,
         input_files_file_widget,
         input_files_directory_widget,
-        buymeacoffee_widget,
+        patreon_widget,
         github_widget,
-        kofi_widget,
-        coindrop_widget
+        supportme_widget,
     }
     for widget in widgets:
         widget.Widget.config(relief='flat')  
@@ -404,15 +385,14 @@ def main():
         if event == '-url_clear_button-':
             input_files_url_widget.update(value='')
 
-        if event == "-buymeacoffee-":
-            webbrowser.open("https://www.buymeacoffee.com/disty")      
+
+        if event == "-patreon-":
+            webbrowser.open("https://www.patreon.com/distyx")      
         if event == "-github-":
             webbrowser.open("https://github.com/diStyApps/Stable-Diffusion-Pickle-Scanner-GUI")  
-        if event == "-kofi-":
-            webbrowser.open("https://ko-fi.com/disty")  
-        if event == "-coindrop-":
+        if event == "-supportme-":
             webbrowser.open("https://coindrop.to/disty")  
-                
+
         if event in right_click_menu[1]:
             if values['-huggingface_radio-']:
                 do_clipboard_operation(event, window, input_files_huggingface_widget)
@@ -425,15 +405,5 @@ def main():
 
             window['-console_ml-'].update(value='')
             
-        # if event == 'Clear':
-        #     if values['-huggingface_radio-']:
-        #         input_files_huggingface_widget.update(value='')    
-        #     if values['-url_radio-']:
-        #         input_files_url_widget.update(value='')
-        #     if values['-file_radio-']:
-        #         input_files_file_widget.update(value='')
-        #     if values['-directory_radio-']:
-        #         input_files_directory_widget.update(value='')
-        
 if __name__ == '__main__':
     main() 

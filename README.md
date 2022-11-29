@@ -54,7 +54,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="media/preview/passdir.png">
+<img src="media/preview/passdir_0.1.2.png">
 <img src="media/preview/infecteddir.jpg">
 
 
