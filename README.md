@@ -17,9 +17,13 @@
 <br />
 <div align="center">
 
+[![](media/svg/patreon.svg)](https://www.patreon.com/distyx)
+<!--
 [![](media/svg/buymeacoffee.svg)](https://www.buymeacoffee.com/disty)
 [![](media/svg/kofi.svg)](https://ko-fi.com/disty)
-[![](media/svg/coindrop.svg)](https://coindrop.to/disty)
+[![](media/svg/supportme.svg)](https://coindrop.to/disty)
+-->
+
   <h1 align="center">Stable-Diffusion-Pickle-Scanner-GUI</h1>
 
   <p align="center">
