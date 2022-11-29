@@ -18,6 +18,9 @@
 <div align="center">
 
 [![](media/svg/patreon.svg)](https://www.patreon.com/distyx)
+
+To continue to develop i will be happy to get some support.
+
 <!--
 [![](media/svg/buymeacoffee.svg)](https://www.buymeacoffee.com/disty)
 [![](media/svg/kofi.svg)](https://ko-fi.com/disty)
