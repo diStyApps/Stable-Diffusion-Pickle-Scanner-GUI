@@ -69,11 +69,13 @@ The project is a GUI for [picklescan](https://github.com/mmaitre314/picklescan) 
 <!-- Downloads -->
 ## Downloads
 
-Standalone version [Windows](https://github.com/diStyApps/Stable-Diffusion-Pickle-Scanner-GUI/releases/download/v0.1.0/distys-Stable-Diffusion-Pickle-Scanner-GUI-standalone.v0.1.0.exe) 
+Standalone version Windows [EXE](https://github.com/diStyApps/Stable-Diffusion-Pickle-Scanner-GUI/releases/download/0.1.2/distys-Stable-Diffusion-Pickle-Scanner-GUI-standalone.v0.1.2.exe) 
 
-Archived version [Windows](https://github.com/diStyApps/Stable-Diffusion-Pickle-Scanner-GUI/releases/download/v0.1.0/distys-Stable-Diffusion-Pickle-Scanner-GUI.v0.1.0.zip) 
+Archived version Windows [7z](https://github.com/diStyApps/Stable-Diffusion-Pickle-Scanner-GUI/releases/download/0.1.2/distys-Stable-Diffusion-Pickle-Scanner-GUI.v0.1.2.7z) 
 
-[Releases](https://github.com/diStyApps/Stable-Diffusion-Pickle-Scanner-GUI/releases/tag/v0.1.0)
+Archived version Windows [Zip](https://github.com/diStyApps/Stable-Diffusion-Pickle-Scanner-GUI/releases/download/0.1.2/distys-Stable-Diffusion-Pickle-Scanner-GUI.v0.1.2.zip) 
+
+[Releases](https://github.com/diStyApps/Stable-Diffusion-Pickle-Scanner-GUI/releases)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -122,8 +124,8 @@ Clone and scan a malicious files test directory:
 ## Roadmap
 
 - [ ] Add model downloader
-- [ ] Add models previews
-
+- [ ] ~~Add models previews~~ seen some good things that about to come out
+ 
 See the [open issues](https://github.com/diStyApps/Stable-Diffusion-Pickle-Scanner-GUI/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
