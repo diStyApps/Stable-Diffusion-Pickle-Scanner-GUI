@@ -51,8 +51,7 @@ To continue to develop i will be happy to get some support.
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#my-other-projects">My Other Projects</a></li>        
+    <li><a href="#contact">Contact</a></li>       
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
@@ -150,12 +149,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Project Link: [https://github.com/diStyApps/Stable-Diffusion-Pickle-Scanner-GUI](https://github.com/diStyApps/Stable-Diffusion-Pickle-Scanner-GUI)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- MY OTHER PROJECTS -->
-## My Other Projects
-
-Project Link: [https://github.com/diStyApps/Stable-Diffusion-Checkpoint-Prunage-Tool-GUI](https://github.com/diStyApps/Stable-Diffusion-Checkpoint-Prunage-Tool-GUI)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- ACKNOWLEDGMENTS -->
