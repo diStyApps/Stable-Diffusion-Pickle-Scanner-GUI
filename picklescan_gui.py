@@ -91,7 +91,7 @@ def main():
 
         layout = sg.Frame('',[
                                 [
-                                    sg.Input(key=f'-input_files_{type_}-',enable_events=True,expand_x=True,expand_y=True,font='Ariel 11',background_color=COLOR_DARK_GRAY,right_click_menu=right_click_menu),
+                                    sg.Input(key=f'-input_files_{type_}-',enable_events=True,expand_x=True,expand_y=True,font='Arial 11',background_color=COLOR_DARK_GRAY,right_click_menu=right_click_menu),
                                     browse_type,
                                 ],
                             ],expand_x=True,k=f'-frame_{type_}-',visible=visible_,relief=sg.RELIEF_SOLID,border_width=1,background_color=COLOR_GRAY_9900)
@@ -130,13 +130,13 @@ def main():
         [
             sg.Frame('',[
                                 [              
-                        sg.Button('SCAN',k='-scan_button-',disabled=False,button_color=("white",COLOR_DARK_BLUE),font='Ariel 12 ',expand_x=True,size=(10,2)),
+                        sg.Button('SCAN',k='-scan_button-',disabled=False,button_color=("white",COLOR_DARK_BLUE),font='Arial 12 ',expand_x=True,size=(10,2)),
                     ], 
                     
                 [
-                    sg.Text(SCANNED_FILES_DEF,k='-scanned_files_text-',expand_x=True,expand_y=True,font='Ariel 12',justification='left',size=(20,1)),
-                    sg.Text(INFECTED_FILES_DEF,k='-infected_files_text-',expand_x=True,expand_y=True,font='Ariel 12',justification='c',size=(20,1)),
-                    sg.Text(DANGEROUS_GLOBALS_DEF,k='-dangerous_globals_text-',expand_x=True,expand_y=True,font='Ariel 12',justification='right',size=(20,1)),
+                    sg.Text(SCANNED_FILES_DEF,k='-scanned_files_text-',expand_x=True,expand_y=True,font='Arial 12',justification='left',size=(20,1)),
+                    sg.Text(INFECTED_FILES_DEF,k='-infected_files_text-',expand_x=True,expand_y=True,font='Arial 12',justification='c',size=(20,1)),
+                    sg.Text(DANGEROUS_GLOBALS_DEF,k='-dangerous_globals_text-',expand_x=True,expand_y=True,font='Arial 12',justification='right',size=(20,1)),
                 ], 
   
                     [
@@ -145,7 +145,7 @@ def main():
                     [
                         sg.Frame('',[
                             [
-                                sg.Text('',key='-status_state_text-', expand_x=True,expand_y=True,justification='c',font='Ariel 12 bold',background_color=COLOR_GRAY_9900)
+                                sg.Text('',key='-status_state_text-', expand_x=True,expand_y=True,justification='c',font='Arial 12 bold',background_color=COLOR_GRAY_9900)
                             ],
                         ],expand_x=True,expand_y=False,relief=sg.RELIEF_FLAT,border_width=0,visible=True,element_justification='c',background_color=COLOR_GRAY_9900,size=(50,30))                          
                     ],   
@@ -161,7 +161,7 @@ def main():
                     [
                         sg.Frame(' Status',[
                             [
-                                sg.Text('',key='-status_info-', expand_x=True,font='Ariel 12 bold')
+                                sg.Text('',key='-status_info-', expand_x=True,font='Arial 12 bold')
                             ],
                         ],expand_x=True,expand_y=True,relief=sg.RELIEF_SOLID,border_width=0,visible=True,element_justification='c',background_color=COLOR_GRAY_9900,title_color=COLOR_DARK_BLUE)                          
                     ],  
