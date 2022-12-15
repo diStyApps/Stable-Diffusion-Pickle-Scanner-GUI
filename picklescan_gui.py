@@ -7,6 +7,7 @@ from picklescan.src.picklescan.scanner import scan_huggingface_model
 from picklescan.src.picklescan.scanner import scanned_files
 from picklescan.src.picklescan.scanner import infected_files
 import util.icons as ic
+from util.ui_flattener import ui_flattener
 
 COLOR_DARK_GREEN = '#78BA04'
 COLOR_DARK_BLUE = '#4974a5'
@@ -21,12 +22,12 @@ SCANNED_FILES_DEF = f'{SCANNED_FILES} 0'
 INFECTED_FILES_DEF = f'{INFECTED_FILES} 0'
 DANGEROUS_GLOBALS_DEF = f'{DANGEROUS_GLOBALS} 0'
 
-right_click_menu = ['', ['Copy', 'Paste', 'Cut']]
+right_click_menu = ['', ['Copy', 'Paste', 'Cut','Select All', 'Clear']]
 
 def do_clipboard_operation(event, window, element):
     if event == 'Select All':
         element.Widget.selection_clear()
-        element.Widget.tag_add('sel', '1.0', 'end')
+        # element.Widget.tag_add('sel', '1.0', 'end')
     elif event == 'Copy':
         try:
             text = element.Widget.selection_get()
@@ -47,9 +48,16 @@ def do_clipboard_operation(event, window, element):
         except:
             # print('Nothing selected')
             window['-status_info-'].update(value='Nothing selected') 
+    elif event == 'Clear':
+        try:
+            text = element.Widget.selection_get()
+            element.update('')
+        except:
+            # print('Nothing selected')
+            window['-status_info-'].update(value='Nothing selected') 
 
 def main():
-    ver = '0.1.2'
+    ver = '0.1.3'
     sg.theme('Dark Gray 15')
     app_title = f"Disty's Stable Diffusion Pickle Scanner GUI - Ver {ver}"
     isError = 0
@@ -201,27 +209,10 @@ def main():
     supportme_widget = window["-supportme-"]
     github_widget = window["-github-"]
 
-    github_widget = window["-github-"]
-
-
-    widgets = {
-        scan_button_widget,
-        huggingface_clear_button_widget,
-        url_clear_button_widget,
-        file_FileBrowse_widget,
-        directory_FolderBrowse_widget,
-        input_files_huggingface_widget,
-        input_files_url_widget,
-        input_files_file_widget,
-        input_files_directory_widget,
-        patreon_widget,
-        github_widget,
-        supportme_widget,
-    }
-    for widget in widgets:
-        widget.Widget.config(relief='flat')  
+   
 
     #endregion 
+    ui_flattener(window)
         
     while True:
         event, values = window.read()
