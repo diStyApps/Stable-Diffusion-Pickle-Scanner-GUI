@@ -22,7 +22,7 @@ SCANNED_FILES_DEF = f'{SCANNED_FILES} 0'
 INFECTED_FILES_DEF = f'{INFECTED_FILES} 0'
 DANGEROUS_GLOBALS_DEF = f'{DANGEROUS_GLOBALS} 0'
 
-right_click_menu = ['', ['Copy', 'Paste', 'Cut','Select All', 'Clear']]
+right_click_menu = ['', ['Copy', 'Paste', 'Cut', 'Clear']]
 
 def do_clipboard_operation(event, window, element):
     if event == 'Select All':
