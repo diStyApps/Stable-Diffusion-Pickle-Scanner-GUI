@@ -61,7 +61,7 @@ To continue to develop i will be happy to get some support.
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="media/preview/passdir_0.1.2.png">
+<img src="media/preview/passdir_0.1.5.png">
 <img src="media/preview/infecteddir.jpg">
 
 
