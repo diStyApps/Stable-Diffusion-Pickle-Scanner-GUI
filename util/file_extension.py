@@ -1,0 +1,15 @@
+file_ext = {
+    ("All", "*.ckpt"),
+    ("All", "*.pth"),
+    ("All", "*.pt"),
+    ("All", "*.bin"),
+    ("All", "*.pkl"),
+    ("All", "*.pickle"),
+    ("All", "*.joblib"),
+    ("All", "*.dat"),
+    ("All", "*.data"),
+    ("All", "*.npy"),
+    ("All", "*.npy"),
+    ("All", "*.npz"),
+    ("All", "*.zip"),      
+}
