@@ -9,7 +9,7 @@ import util.colors as color
 from CONSTANTS import *
 
 sg.theme('Dark Gray 15')
-__version__ = '0.1.5'
+__version__ = '0.1.6'
 APP_TITLE = f"Disty's Stable Diffusion Pickle Scanner GUI - Ver {__version__}"
 isError:int = 0
 
